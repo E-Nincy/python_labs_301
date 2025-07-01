@@ -6,3 +6,29 @@
 #
 # Create at least two different objects of this `Car()` class and demonstrate
 # changing the objects' attributes.
+
+class ModelCar:
+    def __init__(self, model, year, max_speed):
+        self.model = model
+        self.year = year
+        self.max_speed = max_speed
+
+    def increase_speed(self):
+        self.max_speed += 5
+
+    def print_details(self):
+        print(f"Model: {self.model}, Year: {self.year}, Max Speed: {self.max_speed} km/h")
+
+car1 = ModelCar("Toyota Corolla", 2020, 180)
+car2 = ModelCar("Ford Mustang", 2022, 250)
+
+car1.print_details()     
+car1.increase_speed()
+car1.print_details()
+
+car2.print_details()    
+car2.increase_speed()
+car2.increase_speed()
+
+
+car2.print_details()  
