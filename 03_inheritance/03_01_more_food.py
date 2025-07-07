@@ -25,3 +25,14 @@ class Spice(Ingredient):
     def grind(self):
         print(f"You have now {self.amount} of ground {self.name}.")
 
+# Create another child class that inherits from `Ingredient()`.
+class Vegetable(Ingredient):
+    """Models a vegetable ingredient."""
+
+    def chop(self):
+        print(f"You chopped {self.amount} of {self.name} into small pieces.")
+
+    def expire(self):
+        """Overrides the expire method with a vegetable-specific message."""
+        print(f"Oh no! The {self.name} got moldy and slimy...")
+        self.name = "rotten " + self.name
