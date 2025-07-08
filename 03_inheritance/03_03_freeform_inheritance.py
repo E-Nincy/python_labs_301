@@ -12,3 +12,29 @@
 #
 # - A `Vehicle()` parent class, with `Truck()` and `Motorcycle()` child classes.
 # - A `Restaurant()` parent class, with `Gourmet()` and `FastFood()` child classes.
+
+
+# Parent class
+class Vehicle:
+    def __init__(self, brand, year):
+        self.brand = brand
+        self.year = year
+
+# Child class
+class Truck(Vehicle):
+    def __init__(self, brand, year, cargo_capacity):
+        super().__init__(brand, year)
+        self.cargo_capacity = cargo_capacity
+
+# Subclass Truck - ElectrickTruck
+class ElectricTruck(Truck):
+    def __init__(self, brand, year, cargo_capacity, battery_range):
+        super().__init__(brand, year, cargo_capacity) 
+        self.battery_range = battery_range
+
+# Subclass Vehicle - Motorcycle
+class Motorcicle(Vehicle):
+    def __init__(self, brand, year, cc):
+        super().__init__(brand, year)
+        self.cc = cc
+        
