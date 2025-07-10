@@ -6,3 +6,12 @@
 # print(list_[1])
 #
 # This raises and exception that needs to be handled.
+
+try:
+    number = 10
+    result = number / 0
+    print(f"The resultis: {result}")
+
+except ZeroDivisionError as e:
+    print("Oops! You can't divide by zero")
+    print(f"Error details {e}")
