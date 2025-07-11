@@ -15,42 +15,49 @@ BASE_URL = "https://codingnomads.github.io/recipes/"
 
 def get_page_content(url):
     """Makes an HTTP request to the given URL and returns the response."""
-    page = requests.get(url)
-    return page
+    return requests.get(url)
+
+def get_soup_from_url(url):
+    """Returns a BeautifulSoup object parsed from the given URL."""
+    html = get_page_content(url).text
+    return BeautifulSoup(html, "html.parser")
 
 def get_recipe_links():
     """Gets all recipe links from the index page."""
     index_html = get_page_content(BASE_URL).text
     index_soup = BeautifulSoup(index_html, "html.parser")
-    return [link["href"] for link in index_soup.find_all("a")]
+    return [link["href"] for link in index_soup.find_all("a") if link.get("href")]
+
+def get_author_and_text(url):
+    """Gets the author."""
+    html = get_page_content(url).text
+    soup = BeautifulSoup(html, "html.parser")
+
+    author_tag = soup.find("p", class_="author")
+    recipe_tag = soup.find("div", class_="md")
+
+    author = author_tag.text.strip("by ") if author_tag else None
+    recipe_text = recipe_tag.text.lower() if recipe_tag else None
+
+    return author, recipe_text
 
 def find_recipes_with_ingredients(ingredients):
-    """Searches for recipes that contain all the given ingredients."""
+    """Searches for recipes that contain the given ingredients."""
     recipe_links = get_recipe_links()
     found_recipes = []
 
     for r_link in recipe_links:
-        URL = f"{BASE_URL}/{r_link}"
-        html = get_page_content(URL).text
-        soup = BeautifulSoup(html, "html.parser")
+        url = f"{BASE_URL}/{r_link}"
+        author, recipe_text = get_author_and_text(url)
 
-        author_tag = soup.find("p", class_="author")
-        recipe_tag = soup.find("div", class_="md")
-
-        if author_tag and recipe_tag:
-            author = author_tag.text.strip("by ")
-            recipe_text = recipe_tag.text.lower()
-
-            # Check if all ingredients are in the recipe
-            if all(ing in recipe_text for ing in ingredients):
-                found_recipes.append((author, recipe_text.strip(), r_link))
+        if recipe_text and all(ing in recipe_text for ing in ingredients):
+            found_recipes.append((author, recipe_text.strip(), r_link))
 
     return found_recipes
 
 if __name__ == "__main__":
     print("Welcome to the CLI Recipe Finder!")
 
-    # Ask user for ingredients
     user_input = input("Enter ingredients separated by commas: ")
     ingredients = [i.strip().lower() for i in user_input.split(",")]
 
@@ -63,10 +70,11 @@ if __name__ == "__main__":
             print("Recipe found!")
             print(f"Author: {author}")
             print(f"Link: {BASE_URL}/{link}")
-            print(f"Recipe preview:\n{recipe[:500]}...")  # Preview first 500 characters
+            print(f"Recipe preview:\n{recipe[:500]}...")
             print("-" * 50)
     else:
         print("No recipes found with those ingredients.")
+
 
 
 
