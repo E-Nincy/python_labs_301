@@ -7,3 +7,18 @@
 # ******************************
 # Hello
 # ******************************
+
+def decorate(symbol):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            result = func(*args, **kwargs)
+            line = symbol * (len(result) + 6)
+            return f"{line}\n  {result}\n{line}"
+        return wrapper
+    return decorator
+
+@decorate("*")
+def say_hello():
+    return "Hello"
+
+print(say_hello())
