@@ -24,7 +24,6 @@ class TestRescrape(unittest.TestCase):
 
     def test_make_soup(self):
         self.assertEqual(rescrape.make_soup(self.html), self.soup)
-        # self.assertEqual(BeautifulSoup(self.html, "html.parser"), self.soup)
 
     def test_get_recipe_links(self):
         links = [link["href"] for link in self.soup.find_all("a")]
