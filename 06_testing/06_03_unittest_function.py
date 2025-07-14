@@ -10,3 +10,18 @@
 # Keep in mind that you will run into an error when you'll attempt to import
 # this file, because Python modules can't begin with a number.
 # You can rename the file to make it work :)
+
+
+from unittest import TestCase
+
+def addition(num):
+    sum = num + num
+    return sum
+
+class sumTest(TestCase):
+
+    def test_addition(self):
+        self.assertEqual(addition(2),4)
+
+    def test_addition_false(self):
+        self.assertFalse(addition(2),4)
